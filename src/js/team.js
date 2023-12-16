@@ -1,10 +1,24 @@
 export class Team {
-  constructor(char1, char2, char3, char4) {
-    this[0] = char1;
-    this[1] = char2;
-    this[2] = char3;
-    this[3] = char4;
-    this.length = 4;
-    this[Symbol.iterator] = [][Symbol.iterator];
+  constructor(...characters) {
+    this.characters = [...characters];
+    this.from = this.characters[0];
+    this.to = this.characters[this.characters.length - 1];
+    this.fromIndex = 1;
+    this.toIndex = this.characters.length;
+  }
+
+  [Symbol.iterator]() {
+    this.current = this.from;
+    this.currentIndex = this.fromIndex;
+    return this;
+  }
+
+  next() {
+    if (this.currentIndex <= this.toIndex) {
+      this.currentIndex++;
+      return { done: false, value: this.characters[this.currentIndex - 2] };
+    } else {
+      return { done: true };
+    }
   }
 }
